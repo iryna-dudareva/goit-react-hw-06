@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import ContactForm from './components/ContactForm/ContactForm'
 import SearchBox from './components/SearchBox/SearchBox'
-import Contactlist from './components/ContactList/ContactList' //fsfdfd
+import Contactlist from './components/ContactList/ContactList' 
 
 
 function App() {
