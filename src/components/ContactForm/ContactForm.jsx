@@ -2,10 +2,14 @@ import React from 'react'
 import css from './ContactForm.module.css'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import { useDispatch, useSelector } from 'react-redux'
+import { addContact } from '../../redux/contactsSlice'
 
 
 
-const ContactForm = ({onAdd}) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
   const initialValues = {
     name: '',
     number: '',
@@ -19,13 +23,18 @@ const ContactForm = ({onAdd}) => {
 
 
   const handleSubmit = (values, {resetForm}) => {
-    console.log("Form submitted with values:", values);
-    const newContact = {
-      id: Date.now(),
-      name: values.name,
-      number: values.number,
-    };
-    onAdd(newContact);
+    const lcName = values.name.toLowerCase();
+
+    const isDuplicate = contacts.some(
+      contact => contact.name.toLowerCase() === lcName
+    );
+
+    if (isDuplicate) {
+      alert(`${values.name} is already in contacts.`);
+      return;
+    }
+
+    dispatch(addContact(values));
     resetForm();
   }
 
